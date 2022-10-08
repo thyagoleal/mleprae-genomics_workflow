@@ -1,0 +1,4 @@
+channels:
+ - bioconda
+dependencies:
+ - seqprep=1.1

@@ -1,0 +1,6 @@
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - bedops=2.4.41
+  - tabixpp=1.1.0

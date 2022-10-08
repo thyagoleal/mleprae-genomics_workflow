@@ -1,0 +1,52 @@
+samples: data/samples/prepared-fastqs/samples.tsv
+units: data/samples/prepared-fastqs/units.tsv
+
+# use absolute paths for the following
+
+ref:
+  name: AL450380.1
+  ref-file_path: /home/thyago/MEGA/post-doc/fiotec-2022/genomics-mleprae/mleprae-genomics_workflow/data/refs/AL450380.1.fasta
+  index_prefix: /home/thyago/MEGA/post-doc/fiotec-2022/genomics-mleprae/mleprae-genomics_workflow/data/refs/index/AL450380.1_index
+  mlepromatosis_vcf: /home/thyago/MEGA/post-doc/fiotec-2022/genomics-mleprae/mleprae-genomics_workflow/data/refs/last_Lep-to-LPM_v2.7_u0_e34_j5_split_sorted.VarScan_no-indel_1-cov-only.vcf.gz
+  previous_genomes_phylogeny: /home/thyago/MEGA/post-doc/fiotec-2022/genomics-mleprae/mleprae-genomics_workflow/data/refs/036_301_genomes_Pacific_abusir_mexico_AGM_MERGED_all-positions.txt.gz
+
+
+filters:
+    remove_bad: True # or False, next line is ignored if False
+    bad-sites: /home/thyago/MEGA/post-doc/fiotec-2022/genomics-mleprae/mleprae-genomics_workflow/data/refs/M.leprae_repeat_regions_rRNA_SK27bad_T18bad.positions
+
+experiment_opts:
+    platform: 'ILLUMINA'
+
+main_config:
+  threads: 4
+
+# True or False
+merge_prepare_philogeny_script: True # if True, previous samples will be merged 
+
+# add outgroup (e.g. M. lepromatosis)
+add_outgroup: = True # or False
+
+params:
+  samtools:
+    max_mem_thread: "1G" # This is per cpu thread, so if 4 threads are used: 4 x 1 = 4GB
+  trimmomatic:
+    pe:
+      trimmer: "ILLUMINACLIP:data/refs/adapters/TruSeq3-PE-2.fa:2:30:10:2:true SLIDINGWINDOW:5:15:MINLEN:40"
+    se:
+      trimmer: "ILLUMINACLIP:data/refs/adapters/TruSeq3-SE.fa:2:30:10 SLIDINGWINDOW:5:15 MINLEN:40"
+  qualimap:
+      strand: "non-strand-specific"
+
+  samtools-mpileup: "--min-MQ 8 --count-orphans --no-BAQ --min-BQ 0"
+
+  # Here you can tweak how to keep variants by quality and depth
+  varscan:
+       "--min-coverage 1
+        --min-reads2 1 --min-avg-qual 15 --min-var-freq 0.001
+        --min-freq-for-hom 0.8 --p-value 10 --strand-filter 0"
+  snpEff:
+       misc: "-ud 0 -i vcf -o vcf"
+       genome_database: "Mycobacterium_leprae_tn" # Mycobacterium_leprae_tn_gca_000195855
+  vcf2bed:
+      memory: "2G"

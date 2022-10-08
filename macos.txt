@@ -1,0 +1,58 @@
+# --------------------------- 1st OPTION: MULTIPASS -----------------------------
+https://pawseysc.github.io/singularity-containers/44-setup-singularity/index.html
+
+# Install multipass
+https://multipass.run/download/macos
+
+# create linux VM
+multipass launch -n singularity1 bionic
+
+# access the VM
+multipass shell singularity1
+
+# install singularity inside VM
+https://pawseysc.github.io/singularity-containers/files/install-singularity.sh
+
+# after using, exit the VM and shut it down
+multipass stop singularity1
+
+# to launch again
+multipass start singularity1
+
+# --------------------------- 2nd OPTION: VAGRANT -----------------------------
+
+https://docs.sylabs.io/guides/3.0/user-guide/installation.html#install-on-windows-or-mac
+
+# install homebrew if not installed
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+
+# install vagrant and necessary bits
+brew cask install virtualbox && \
+    brew cask install vagrant && \
+    brew cask install vagrant-manager
+
+# create dir host
+mkdir vm-singularity && \
+    cd vm-singularity
+
+
+# install linux + singularity all-in-one
+
+export VM=sylabs/singularity-3.0-ubuntu-bionic64 && \
+    vagrant init $VM && \
+    vagrant up && \
+    vagrant ssh
+
+# after using, leave vagrant using:
+exit
+# then 
+vagrant halt
+
+# to launch again, go to the vm-singularity dir and launch using
+vagrant up
+
+
+###########
+
+MAC OS BIG SUR 11.5.1

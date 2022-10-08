@@ -1,0 +1,7 @@
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - varscan=2.4.4
+  - samtools=1.15
+  - tabixpp=1.1.0
