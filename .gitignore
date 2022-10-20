@@ -16,3 +16,9 @@ output_test_MERGED_all-positions.txt
 output_test_MERGED_only-informative-sites.txt
 output_test_MERGED_only-informative-sites_plus_LPM.fasta
 original_output.txt
+.bash_history
+.bashrc
+.condarc
+test.txt
+todo.txt
+macos.txt
