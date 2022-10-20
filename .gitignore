@@ -3,7 +3,6 @@
 data/
 results/
 .snakemake/
-.imgs/
 .tmp/
 .java/
 .conda/
