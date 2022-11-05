@@ -18,7 +18,7 @@ If you have any questions, please write-me up.
 
 * FASTQ.gz files sample-demultiplexed, separated by lanes or not, single-ended (SE) or paired-end (PE). 
 
-* :heavy_exclamation_mark: Please, make sure that your fastq files follow the Illumina [official naming scheme](https://webcache.googleusercontent.com/search?q=cache:-UCon30rVLUJ:https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm&cd=1&hl=en&ct=clnk&gl=br);**
+* :heavy_exclamation_mark: Please, make sure that your fastq files follow the Illumina [official naming scheme](https://webcache.googleusercontent.com/search?q=cache:-UCon30rVLUJ:https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm&cd=1&hl=en&ct=clnk&gl=br);
 
 * Internet connection for downloading software (at least for the first time).
 
@@ -155,5 +155,5 @@ Now that you have a conda environment with the installed tools, you can configur
 
    :pushpin:To see all the snakemake options and flags, just run `snakemake -h`
 
-   :heavy_check_mark: ​ After successfully running the workflow, two more directories will be created, namely `results/` and `logs/`.
+   :heavy_check_mark: ​ After successfully running the workflow, two directories will be created, namely `results/` and `logs/`.
 
