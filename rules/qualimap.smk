@@ -31,5 +31,5 @@ rule qualimap_dedup:
     # conda:
     #     "../envs/qualimap.yml"    
     shell:
-        "qualimap bamqc -bam {input} -nt {threads} -outfile {output.html} "
+        "qualimap bamqc -bam {input} -nt {threads} --skip-duplicated -sdmode 2 -outfile {output.html} "
         "-outdir {output.outdir} -p {params.seq_protocol} -outformat HTML 2> {log}"

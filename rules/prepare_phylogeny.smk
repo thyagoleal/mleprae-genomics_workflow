@@ -32,4 +32,5 @@ rule snpEff_phylogeny:
     # conda:
     #     "../envs/snpeff.yml"
     shell:
-        "cat {input.infile} | bash {input.script} > {output} 2>> {log}"
+        "{input.script} {input.infile} > {output} 2>> {log} && " 
+        "rm snpEff_summary.html snpEff_genes.txt"

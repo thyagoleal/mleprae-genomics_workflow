@@ -4,7 +4,7 @@ rule map_reads_se:
     input:
         "results/trimmed/{sample}.trimmed.fastq.gz",
     output:
-        temp("results/mapped/{sample}.bam"),
+        "results/mapped/{sample}.bam",
     log:
         log1="logs/bowtie2/{sample}.log",
         log2="logs/samtools_view/{sample}.log",
@@ -36,7 +36,7 @@ rule map_reads_pe:
         "results/trimmed/{sample}_R1.unpaired.fastq.gz",
         "results/trimmed/{sample}_R2.unpaired.fastq.gz"]
     output:
-        temp("results/mapped/{sample}.bam"),
+        "results/mapped/{sample}.bam",
     log:
         log1="logs/bowtie2/{sample}.log",
         log2="logs/samtools_view/{sample}.log",
