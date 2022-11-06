@@ -10,8 +10,8 @@ rule qualimap:
         config['main_config']['threads']
     params:
         seq_protocol=config['params']['qualimap']['strand']
-    conda:
-        "../envs/qualimap.yml"    
+    # conda:
+    #     "../envs/qualimap.yml"    
     shell:
         "qualimap bamqc -bam {input} -nt {threads} -outfile {output.html} "
         "-outdir {output.outdir} -p {params.seq_protocol} -outformat HTML 2> {log}"
@@ -28,8 +28,8 @@ rule qualimap_dedup:
         config['main_config']['threads']
     params:
         seq_protocol=config['params']['qualimap']['strand']
-    conda:
-        "../envs/qualimap.yml"    
+    # conda:
+    #     "../envs/qualimap.yml"    
     shell:
         "qualimap bamqc -bam {input} -nt {threads} -outfile {output.html} "
         "-outdir {output.outdir} -p {params.seq_protocol} -outformat HTML 2> {log}"

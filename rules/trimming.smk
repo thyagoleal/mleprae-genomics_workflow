@@ -15,8 +15,8 @@ rule trim_reads_PE:
     log:
         "logs/trimmomatic/{sample}.log",
     threads: config["main_config"]["threads"]
-    conda: 
-        "../envs/qc_trimming.yml"
+    # conda: 
+    #     "../envs/qc_trimming.yml"
     # wrapper:
     #     "v1.7.0/bio/trimmomatic/pe"
     # script:
@@ -38,8 +38,8 @@ rule trim_reads_SE:
         "logs/trimmomatic/{sample}.log"
     threads:
         config["main_config"]["threads"]
-    conda: 
-        "../envs/qc_trimming.yml"
+    # conda: 
+    #     "../envs/qc_trimming.yml"
     # wrapper:
     #     "v1.7.0/bio/trimmomatic/se"
     # script:

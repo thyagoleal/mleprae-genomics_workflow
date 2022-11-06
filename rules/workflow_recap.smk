@@ -9,8 +9,8 @@ rule workflow_recap_metrics:
         "results/pipeline_output_recap.tsv"
     params:
         samples=all_samples,
-    conda:
-        "../envs/basic.yml"
+    # conda:
+    #     "../envs/basic.yml"
     script:
         "../scripts/collect_metrics.py"
     
@@ -23,7 +23,7 @@ rule collect_seqprep_metrics:
         "logs/collect_seqprep/collect_seqprep_metrics.log", 
     params:
         sample=samples_pe,    
-    conda:
-        "../envs/basic.yml"
+    # conda:
+    #     "../envs/basic.yml"
     script:
         "../scripts/collect_seqPrep-metrics.py"

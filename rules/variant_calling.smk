@@ -11,8 +11,8 @@ rule variant_calling:
         ref=config['ref']['ref-file_path'],
     threads:
         config['main_config']['threads']
-    conda:
-        "../envs/mapping_tools.yml"    
+    # conda:
+    #     "../envs/mapping_tools.yml"    
     shell:
         "samtools mpileup {params.main} -f {params.ref} {input.bam} 2> {log} "
         "-o {output}"
@@ -29,8 +29,8 @@ rule varscan:
         config['main_config']['threads']
     params:
         config['params']['varscan']
-    conda:
-        "../envs/varscan.yml"    
+    # conda:
+    #     "../envs/varscan.yml"    
     shell:
         "varscan mpileup2cns {input} {params} --output-vcf 1 2>> {log.log1} | "
         "sed -r -e 's/Sample1/{wildcards.sample}/' -e "
@@ -52,8 +52,8 @@ rule snpeff:
     params:
         misc=config['params']['snpEff']['misc'],
         db=config['params']['snpEff']['genome_database'],
-    conda:
-        "../envs/snpeff.yml"    
+    # conda:
+    #     "../envs/snpeff.yml"    
     shell:
         "snpEff eff {params.db} {input} {params.misc} -htmlStats {output.html} "
         "-csvStats {output.csv} 2> {log.log1} | bgzip -@ {threads} > {output.vcf} 2> {log.log2}"
@@ -69,8 +69,8 @@ rule tabix:
         config['main_config']['threads']
     log:
         "logs/tabix/{sample}.txt"
-    conda:
-        "../envs/varscan.yml"
+    # conda:
+    #     "../envs/varscan.yml"
     shell:
          "tabix -f -p vcf --verbosity 9 {input.in1} 2>> {log} && "
          "tabix -f -p vcf --verbosity 9 {input.in2} 2>> {log}"

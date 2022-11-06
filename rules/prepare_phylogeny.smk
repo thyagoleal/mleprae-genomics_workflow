@@ -15,8 +15,8 @@ rule prepare_phylogeny:
         sample_names=all_samples, # do not change this
     log:
         "logs/prepare_phylogeny/phylogeny-script.log"
-    conda:
-        "../envs/basic.yml"
+    # conda:
+    #     "../envs/basic.yml"
     script:
         "../scripts/prepare4phylogeny.py"
 
@@ -24,12 +24,12 @@ rule prepare_phylogeny:
 rule snpEff_phylogeny:
     input:
         infile="results/phyloprep_output/output_MERGED_only-informative-sites.txt",
-        script="scripts/SNP-table_to_SNPeff-table_v2.sh",
+        script="scripts/SNP-table_to_SNPeff-table_v3.sh",
     output:
         "results/phyloprep_output/output_MERGED_only-informative-sites_snpEff.txt"
     log:
         "logs/prepare_phylogeny/snpeff.log"
-    conda:
-        "../envs/snpeff.yml"
+    # conda:
+    #     "../envs/snpeff.yml"
     shell:
-        "bash {input.script} snpEff {input.infile} > {output} 2>> {log}"
+        "cat {input.infile} | bash {input.script} > {output} 2>> {log}"

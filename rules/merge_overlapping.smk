@@ -14,8 +14,8 @@ rule merge_overlapping_reads_pe:
     params:
         forward_primer="AGATCGGAAGAGCACACGTCT",
         reverse_primer="AGATCGGAAGAGCGTCGTGTA",
-    conda:
-        "../envs/seqprep.yml"    
+    # conda:
+    #     "../envs/seqprep.yml"    
     shell:
         "SeqPrep -f {input.r1} -r {input.r2} -1 {output.out1} -2 {output.out2} "
         "-3 {output.out3} -4 {output.out4} -A {params.forward_primer} "

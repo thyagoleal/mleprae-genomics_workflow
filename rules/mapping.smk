@@ -17,8 +17,8 @@ rule map_reads_se:
         platform=config['experiment_opts']['platform']
     threads:
         config["main_config"]["threads"]
-    conda:
-        "../envs/mapping_tools.yml"
+    # conda:
+    #     "../envs/mapping_tools.yml"
     shell:
         "bowtie2 -x {params.idx} -p {threads} -U {input} "
         "--rg-id {wildcards.sample} "
@@ -48,8 +48,8 @@ rule map_reads_pe:
         max_mem_thread=config["params"]["samtools"]["max_mem_thread"],
         platform=config['experiment_opts']['platform'],
     threads: config["main_config"]["threads"]
-    conda:
-        "../envs/mapping_tools.yml"
+    # conda:
+    #     "../envs/mapping_tools.yml"
     shell:
         "bowtie2 -x {params.idx} -p {threads} -U {input.U} -1 {input.in1} "
         "-2 {input.in2} --rg-id {wildcards.sample} "
@@ -68,8 +68,8 @@ rule sort_bam:
         max_mem_thread=config["params"]["samtools"]["max_mem_thread"],
     log:
         "logs/samtools_sort/{sample}.log",
-    conda:
-        "../envs/mapping_tools.yml"    
+    # conda:
+    #     "../envs/mapping_tools.yml"    
     shell:
         "samtools sort {input} -@ {threads} -m {params.max_mem_thread} -O BAM -o {output} 2>> {log}"
 
@@ -82,8 +82,8 @@ rule mapping_stats:
         "logs/samtools-stats/{sample}.log",
     threads:
         config["main_config"]["threads"]
-    conda:
-        "../envs/mapping_tools.yml"    
+    # conda:
+    #     "../envs/mapping_tools.yml"    
     shell:
         "samtools stats {input} -@ {threads} > {output} 2> {log}"
 
@@ -96,7 +96,7 @@ rule flag_stats:
         "logs/samtools-flagstat/{sample}.log",
     threads:
         config["main_config"]["threads"]
-    conda:
-        "../envs/mapping_tools.yml"    
+    # conda:
+    #     "../envs/mapping_tools.yml"    
     shell:
         "samtools flagstat {input} -@ {threads} > {output} 2> {log}"

@@ -10,8 +10,8 @@ rule fastqc_raw_pe_r1:
     log:
         "logs/fastqc_raw/{sample}_R1.log",
     threads: config['main_config']['threads']
-    conda: 
-        "../envs/qc_trimming.yml"
+    # conda: 
+    #     "../envs/qc_trimming.yml"
     wrapper:
         "v1.8.0/bio/fastqc"
     # script:
@@ -30,8 +30,8 @@ rule fastqc_raw_pe_r2:
     log:
         "logs/fastqc_raw/{sample}_R2.log",
     threads: config['main_config']['threads']
-    conda: 
-        "../envs/qc_trimming.yml"
+    # conda: 
+    #     "../envs/qc_trimming.yml"
     wrapper:
         "v1.8.0/bio/fastqc"
     # script:
@@ -46,8 +46,8 @@ rule fastqc_se_raw:
         html="results/qc/fastqc_raw/{sample}.html",
         zip="results/qc/fastqc_raw/{sample}_fastqc.zip"
     params: "--quiet"
-    conda: 
-        "../envs/qc_trimming.yml"
+    # conda: 
+    #     "../envs/qc_trimming.yml"
     log:
         "logs/fastqc_raw/{sample}.log",
     threads: config['main_config']['threads']
@@ -68,8 +68,8 @@ rule fastqc_trimmomatic_se:
         "--quiet"
     threads:
         config['main_config']['threads']
-    conda: 
-        "../envs/qc_trimming.yml"        
+    # conda: 
+    #     "../envs/qc_trimming.yml"        
     wrapper:
         "v1.8.0/bio/fastqc"
     # script:
@@ -89,8 +89,8 @@ rule fastqc_trimmomatic_pe_r1:
         "logs/fastqc_trimmed/{sample}_R1.log",
     threads:
         config['main_config']['threads']
-    conda: 
-        "../envs/qc_trimming.yml"        
+    # conda: 
+    #     "../envs/qc_trimming.yml"        
     wrapper:
         "v1.8.0/bio/fastqc"
     # script:
@@ -110,8 +110,8 @@ rule fastqc_trimmomatic_pe_r2:
         "logs/fastqc_trimmed/{sample}_R2.log",
     threads:
         config['main_config']['threads']
-    conda: 
-        "../envs/qc_trimming.yml"
+    # conda: 
+    #     "../envs/qc_trimming.yml"
     wrapper:
         "v1.8.0/bio/fastqc"
     # script:
