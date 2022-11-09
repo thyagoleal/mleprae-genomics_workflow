@@ -20,8 +20,8 @@ for sample in samples:
         table_trimming += [i]
     trimmomatic_info = table_trimming[-2].rstrip()
 
-    # bamqc deduped data
-    ifile_bamqc = open('results/qc/qualimap/deduped/' + sample + '/genome_results.txt', 'r')
+    # bamqc all
+    ifile_bamqc = open('results/qc/qualimap/all_reads/' + sample + '/genome_results.txt', 'r')
     table_bamqc = []
     for i in ifile_bamqc:
         table_bamqc += [i]
@@ -33,8 +33,8 @@ for sample in samples:
         if 'std coverageData' in i:
             stdev_cov = i.rstrip()
 
-    # bamqc all reads
-    ifile_bamqc_nodup = open('results/qc/qualimap/all_reads/' + sample + '/genome_results.txt', 'r')
+    # bamqc deduped
+    ifile_bamqc_nodup = open('results/qc/qualimap/deduped/' + sample + '/genome_results.txt', 'r')
     table_bamqc_nodup = []
     for j in ifile_bamqc_nodup:
         table_bamqc_nodup += [j]
@@ -50,7 +50,7 @@ for sample in samples:
 
     ofile.write(sample + '-vs-' + snakemake.config["ref"]["name"] +
      '\t' + str(date.today()) + '\t' + mapping_percentage + '\t' + 
-     trimmomatic_info + '\t' + mean_cov + '\t' + stdev_cov + '\t'+ 
+     trimmomatic_info + '\t' + mean_cov + '\t' + stdev_cov + '\t' + 
      'without duplicated reads:' + mean_cov_nodup + '\t'+ 
      'without duplicated reads:' + stdev_cov_nodup+ '\n')
 

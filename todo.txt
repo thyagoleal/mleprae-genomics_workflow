@@ -1,6 +1,6 @@
 # To do
 
-- last script 
+- -Create a recap script that assembles all the recaps in a given directory into one master recap file
 - add bowtie2 index auto
 - add options to add M. lepromatosis
 - add option to not remove bad sites in the phyloprep script
@@ -25,7 +25,3 @@ MEGA OPTIONS:
 
 # BACKUP 
 - Add a backup option inside config and a backup routine
-- 
-
-# Create a recap script that assembles all the recaps in a given directory into one master recap file
-

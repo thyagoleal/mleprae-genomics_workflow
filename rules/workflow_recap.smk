@@ -1,9 +1,7 @@
 rule workflow_recap_metrics:
     input:
-        expand(["logs/bowtie2/{sample}.log", 
-        "logs/trimmomatic/{sample}.log",
-        "results/qc/qualimap/all_reads/{sample}.deduped.log",
-        "results/qc/qualimap/deduped/{sample}.all-reads.log"], 
+        expand(["results/qc/qualimap/all_reads/{sample}/",
+        "results/qc/qualimap/deduped/{sample}/"], 
         sample=all_samples),
     output:
         "results/pipeline_output_recap.tsv"
