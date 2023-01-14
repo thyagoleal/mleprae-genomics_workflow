@@ -1,7 +1,0 @@
-# To do
-
-- Add mapping statistics in one output
-- Add option to merge or not the results in prepare phylogenetic analysis
-- prepare smaller conda environments
-- wrapper script
-- 
