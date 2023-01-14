@@ -7,7 +7,7 @@ units: data/samples/prepared-fastqs/units.tsv
 ref:
   name: AL450380.1
   ref-file_path: data/refs/AL450380.1.fasta
-  index_prefix: data/refs/index/AL450380.1_index
+  index_prefix: data/refs/index/AL450380.1_index # use name + _index
   mlepromatosis_vcf: data/refs/last_Lep-to-LPM_v2.7_u0_e34_j5_split_sorted.VarScan_no-indel_1-cov-only.vcf.gz
   previous_genomes_phylogeny: data/refs/036_301_genomes_Pacific_abusir_mexico_AGM_MERGED_all-positions.txt.gz
 
@@ -27,9 +27,6 @@ merge_prepare_philogeny_script: True # if True, previous samples will be merged
 filters:
   remove_bad: True # or False, next line is ignored if False (Default True)
   bad-sites: /home/thyago/MEGA/post-doc/fiotec-2022/genomics-mleprae/mleprae-genomics_workflow/data/refs/M.leprae_repeat_regions_rRNA_SK27bad_T18bad.positions
-
-# add outgroup (e.g. M. lepromatosis)
-add_outgroup: True # or False (Default True)
 
 # ------------------------------------------------------------------------------
 

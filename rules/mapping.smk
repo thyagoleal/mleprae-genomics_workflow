@@ -1,5 +1,17 @@
 ruleorder: map_reads_pe > map_reads_se
 
+rule build_index:
+    input:
+        fasta=config['ref']['ref-file_path']
+    output:
+        expand("data/refs/index/{name}_index.{parts}.bt2", name=config['ref']['name'], parts=['1','2','3','4','rev.1', 'rev.2']),
+    log:
+        "logs/bowtie2/build-index.log",
+    threads:
+        config["main_config"]["threads"]
+    shell:
+        "bowtie2-build {input.fasta} data/refs/index/{config['ref']['name']}_index -p {threads} 2>> {log}" 
+
 rule map_reads_se:
     input:
         "results/trimmed/{sample}.trimmed.fastq.gz",
