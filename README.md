@@ -16,6 +16,8 @@ If you have any questions, please write-me up.
 
 * conda and mamba;
 
+* MEGA 11 and megacc for phylogeny;
+
 * FASTQ.gz files sample-demultiplexed, separated by lanes or not, single-ended (SE) or paired-end (PE). 
 
 * :heavy_exclamation_mark: Please, make sure that your fastq files follow the Illumina [official naming scheme](https://webcache.googleusercontent.com/search?q=cache:-UCon30rVLUJ:https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm&cd=1&hl=en&ct=clnk&gl=br);
@@ -44,10 +46,12 @@ If you have any questions, please write-me up.
 
 5. If everything installed correctly **run** `conda activate mleprae-genomics`;
 
-6. Now you can use the workflow and its installed tools. It is likely that  all of these steps have been done for you already;
+6. Install [MEGA 11](https://www.megasoftware.net/) according to your operating system. megacc must be available in your command line. If not, try installing MEGA 11 for command line CC specifically as well;
+
+7. Now you can use the workflow and its installed tools. It is likely that  all of these steps have been done for you already;
 
    > :exclamation:  Every time you wish to run the pipeline or one of its tools, you must have the mleprae-genomics environment active. To activate it, just run `conda activate mleprae-genomics`.
-   
+
    ### Configuring and preparing to run the workflow
 
 Now that you have a conda environment with the installed tools, you can configure your samples.
