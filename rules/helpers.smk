@@ -46,11 +46,27 @@ def get_platform():
     else:
         raise ValueError("Could not determine system type")
 
+def good_coverage_samples():
+    import csv
+    from re import sub
+    out = []
+    
+    if config['only_phylogeny_good_coverage'] and config['coverage_threshold_phylogeny'] is not None:
+        with open('results/pipeline_output_recap.tsv') as file:
+            tsv_file = csv.reader(file, delimiter="\t")
+            for line in tsv_file:
+                if float(sub('[A-Za-z\=]', '', line[4])) >= float(config['coverage_threshold_phylogeny']):
+                    out.append(sub('\-vs\-.*', '', line[0]))
+        return out
+    if not config['only_phylogeny_good_coverage']:
+        return units['sample'].to_list()
+
+    else:
+        raise ValueError("Unknown error in good_coverage_samples()")
 
 def is_single_end(sample):
     """Return True if sample is single-end."""
     return pd.isnull(units.loc[sample, "fq2"])
-
 
 def get_multiqc_input(wildcards):
     multiqc_input = []

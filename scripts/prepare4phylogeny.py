@@ -34,6 +34,8 @@ MERGE = snakemake.params.previous_genomes
 OUTDIR = Path(snakemake.output[0]).parent.absolute()
 OUTPUT = "output"
 OUTPUT = os.path.join(OUTDIR, OUTPUT)
+COVERAGE_TOGGLE = snakemake.params.coverage_toggle
+COVERAGE_CUTOFF = snakemake.params.coverage_cutoff
 
 # convert list to space separated string
 # BASENAMES_str = ' '.join([str(name) for name in BASENAMES])
@@ -42,6 +44,15 @@ OUTPUT = os.path.join(OUTDIR, OUTPUT)
 INPUT_VCFS_str = INPUT_VCFS
 INPUT_VCFS = ' '.join(INPUT_VCFS).split()
 
+if COVERAGE_TOGGLE:
+    print(bcolors.OKBLUE + 'Coverage filter is ON' + bcolors.ENDC)
+    print(bcolors.OKBLUE + 'Coverage cutoff is set to ' + str(COVERAGE_CUTOFF) + bcolors.ENDC)
+    print(bcolors.OKGREEN + "Processing ONLY passing samples:" + bcolors.ENDC)
+    print(BASENAMES, sep="\n")
+else:
+    print(bcolors.OKBLUE + 'Coverage filter is OFF' + bcolors.ENDC)
+    print(bcolors.OKGREEN + "Processing ALL samples:" + bcolors.ENDC)
+    print(BASENAMES, sep = "\n")
 
 if len(INPUT_VCFS) != len(BASENAMES):
     print(bcolors.FAIL + '\nERROR: number of entries in basenames and VCFs are not equal!\n' + bcolors.ENDC)

@@ -1,7 +1,7 @@
 if config['merge_prepare_philogeny_script']:
     rule prepare_phylogeny:
         input:
-            expand("results/variant_calls/{sample}.varscan.vcf.gz", sample=all_samples)
+            expand("results/variant_calls/{sample}.varscan.vcf.gz", sample=good_coverage_samples())
         output:
                 "results/phyloprep_output/output_MERGED_only-informative-sites_plus_LPM.fasta",
                 "results/phyloprep_output/output_MERGED_only-informative-sites.txt",
@@ -14,7 +14,9 @@ if config['merge_prepare_philogeny_script']:
             filter_out=config['filters']['bad-sites'],
             merge_toggle=config['merge_prepare_philogeny_script'], # If False it will ignore previous_genomes
             previous_genomes=config['ref']['previous_genomes_phylogeny'],
-            sample_names=all_samples, # do not change this
+            sample_names=good_coverage_samples(), # do not change this
+            coverage_toggle=config['only_phylogeny_good_coverage'], 
+            coverage_cutoff=config['coverage_threshold_phylogeny'],
         log:
             "logs/prepare_phylogeny/phylogeny-script.log"
         # conda:
@@ -25,7 +27,7 @@ if config['merge_prepare_philogeny_script']:
 if not config['merge_prepare_philogeny_script']:
     rule prepare_phylogeny:
         input:
-            expand("results/variant_calls/{sample}.varscan.vcf.gz", sample=all_samples)
+            expand("results/variant_calls/{sample}.varscan.vcf.gz", sample=good_coverage_samples())
         output:
                 "results/phyloprep_output/output_only-informative-sites_plus_LPM.fasta",
                 "results/phyloprep_output/output_only-informative-sites.txt",
@@ -37,7 +39,9 @@ if not config['merge_prepare_philogeny_script']:
             filter_out=config['filters']['bad-sites'],
             merge_toggle=config['merge_prepare_philogeny_script'], # If False it will ignore previous_genomes
             previous_genomes=config['ref']['previous_genomes_phylogeny'],
-            sample_names=all_samples, # do not change this
+            sample_names=good_coverage_samples(), # do not change this
+            coverage_toggle=config['only_phylogeny_good_coverage'], 
+            coverage_cutoff=config['coverage_threshold_phylogeny'],
         log:
             "logs/prepare_phylogeny/phylogeny-script.log"
         # conda:

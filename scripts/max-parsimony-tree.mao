@@ -18,7 +18,7 @@ Analysis                                    = Phylogeny Reconstruction
 Statistical Method                          = Maximum Parsimony                          
 Phylogeny Test                              = ====================                       
 Test of Phylogeny                           = Bootstrap method                           
-No. of Bootstrap Replications               = 25                                        
+No. of Bootstrap Replications               = 500                                        
 Substitution Model                          = ====================                       
 Substitutions Type                          = Nucleotide                                 
 Data Subset to Use                          = ====================                       

@@ -18,7 +18,10 @@ main_config:
   threads: 4
 
 # -------------------- parameters for prepare_phylogeny.smk --------------------
-# True or False
+
+# if True, only samples with coverage higher than coverage_threshold_phylogeny will be processed 
+only_phylogeny_good_coverage: False
+coverage_threshold_phylogeny: 5 # requires at least X coverage to be included in the phylogeny (default 5)
 merge_prepare_philogeny_script: True # if True, previous samples will be merged
 
 filters:
