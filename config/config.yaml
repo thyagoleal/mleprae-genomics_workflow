@@ -11,22 +11,26 @@ ref:
   mlepromatosis_vcf: data/refs/last_Lep-to-LPM_v2.7_u0_e34_j5_split_sorted.VarScan_no-indel_1-cov-only.vcf.gz
   previous_genomes_phylogeny: data/refs/036_301_genomes_Pacific_abusir_mexico_AGM_MERGED_all-positions.txt.gz
 
-
-filters:
-  remove_bad: True # or False, next line is ignored if False
-  bad-sites: /home/thyago/MEGA/post-doc/fiotec-2022/genomics-mleprae/mleprae-genomics_workflow/data/refs/M.leprae_repeat_regions_rRNA_SK27bad_T18bad.positions
-
 experiment_opts:
   platform: "ILLUMINA"
 
 main_config:
   threads: 4
 
+# -------------------- parameters for prepare_phylogeny.smk --------------------
 # True or False
-merge_prepare_philogeny_script: True # if True, previous samples will be merged 
+merge_prepare_philogeny_script: True # if True, previous samples will be merged
+
+filters:
+  remove_bad: True # or False, next line is ignored if False
+  bad-sites: /home/thyago/MEGA/post-doc/fiotec-2022/genomics-mleprae/mleprae-genomics_workflow/data/refs/M.leprae_repeat_regions_rRNA_SK27bad_T18bad.positions
+
+
 
 # add outgroup (e.g. M. lepromatosis)
 add_outgroup: True # or False
+
+# ------------------------------------------------------------------------------
 
 params:
   samtools:

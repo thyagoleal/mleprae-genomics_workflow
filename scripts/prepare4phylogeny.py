@@ -28,6 +28,7 @@ REF = snakemake.params.ref_fa
 BASENAMES = snakemake.params.sample_names # list of sample names
 INPUT_VCFS = snakemake.input # space delimited list of vcf files
 LPM = snakemake.params.mlepromatosis_vcf
+FILTER_TOGGLE = snakemake.params.filter_bad # if False, next is ignored
 FILTER = snakemake.params.filter_out
 MERGE = snakemake.params.previous_genomes
 OUTDIR = Path(snakemake.output[0]).parent.absolute()
@@ -225,39 +226,56 @@ if not MERGE_TOGGLE:
             f.write(strs+'\n')
         f.close()
 
+    if FILTER_TOGGLE:
+        
+        ''' Second Step: Edit the file created in the First step, to remove  the repetitive regions, rRNAs and uninformative sites -> create a new file with only informative positions!'''
+        input_file_filter = open(FILTER,'r')
+        # filter table is a list of positions to remove (rRNAS and repeats positions)
+
+        filter_table = []
+        for posi in input_file_filter:
+            filter_table += [posi.strip()]
+
+        # pos_dic is the same than filter_table except in dictionary as much faster to parse.
+
+        pos_dic = {}
+        for j in filter_table:
+            pos_dic[j] = ''
 
 
-    ''' Second Step: Edit the file created in the First step, to remove  the repetitive regions, rRNAs and uninformative sites -> create a new file with only informative positions!'''
-    input_file_filter = open(FILTER,'r')
-    # filter table is a list of positions to remove (rRNAS and repeats positions)
+        for line in fileinput.input(OUTPUT + '_all-positions.txt',inplace=True, backup='.bak'): # modify the file created in the first step
+            index = line.index('\t')
+            # Here I remove from the file the positions that are in repetitive regions of the genome or that are rRNAs
+            if line[0] == '0':
+                print(line, end=' ')
+            else:
+                if line[:index] not in pos_dic:
+                #Here I remove uninformative sites : only A, only G, only T, only C, only - or mix of - and A, - and T, - and C, - and G
+                    if not (('-' in line[index+1:] and 'A' not in line[index+1:] and 'C' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:]) or ('A' in line[index+1:] and ('C' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:])) or ('C' in line[index+1:] and ('A' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:])) or ('T' in line[index+1:] and ('C' not in line[index+1:] and 'A' not in line[index+1:] and 'G' not in line[index+1:])) or ('G' in line[index+1:] and ('C' not in line[index+1:] and 'T' not in line[index+1:] and 'A' not in line[index+1:])) or ('D' in line[index+1:]) or ('I' in line[index+1:])):
+                        print(line, end='')
 
-    filter_table = []
-    for posi in input_file_filter:
-        filter_table += [posi.strip()]
+        subprocess.call('mv '+OUTPUT+'_all-positions.txt '+ OUTPUT+'_only-informative-sites.txt',shell=True)
+        subprocess.call('mv '+OUTPUT+'_all-positions.txt.bak '+ OUTPUT+'_all-positions.txt',shell=True)
 
-    # pos_dic is the same than filter_table except in dictionary as much faster to parse.
+        fileinput.close()
 
-    pos_dic = {}
-    for j in filter_table:
-        pos_dic[j] = ''
-
-
-    for line in fileinput.input(OUTPUT + '_all-positions.txt',inplace=True, backup='.bak'): # modify the file created in the first step
-        index = line.index('\t')
-        # Here I remove from the file the positions that are in repetitive regions of the genome or that are rRNAs
-        if line[0] == '0':
-            print(line, end=' ')
-        else:
-            if line[:index] not in pos_dic:
-            #Here I remove uninformative sites : only A, only G, only T, only C, only - or mix of - and A, - and T, - and C, - and G
+    if not FILTER_TOGGLE:
+        
+        for line in fileinput.input(OUTPUT + '_all-positions.txt',inplace=True, backup='.bak'): # modify the file created in the first step
+            index = line.index('\t')
+            # Here I remove from the file the positions that are in repetitive regions of the genome or that are rRNAs
+            if line[0] == '0':
+                print(line, end=' ')
+            else:
+                #Here I remove uninformative sites : only A, only G, only T, only C, only - or mix of - and A, - and T, - and C, - and G
                 if not (('-' in line[index+1:] and 'A' not in line[index+1:] and 'C' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:]) or ('A' in line[index+1:] and ('C' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:])) or ('C' in line[index+1:] and ('A' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:])) or ('T' in line[index+1:] and ('C' not in line[index+1:] and 'A' not in line[index+1:] and 'G' not in line[index+1:])) or ('G' in line[index+1:] and ('C' not in line[index+1:] and 'T' not in line[index+1:] and 'A' not in line[index+1:])) or ('D' in line[index+1:]) or ('I' in line[index+1:])):
                     print(line, end='')
 
-    subprocess.call('mv '+OUTPUT+'_all-positions.txt '+ OUTPUT+'_only-informative-sites.txt',shell=True)
-    subprocess.call('mv '+OUTPUT+'_all-positions.txt.bak '+ OUTPUT+'_all-positions.txt',shell=True)
+        subprocess.call('mv '+OUTPUT+'_all-positions.txt '+ OUTPUT+'_only-informative-sites.txt',shell=True)
+        subprocess.call('mv '+OUTPUT+'_all-positions.txt.bak '+ OUTPUT+'_all-positions.txt',shell=True)
 
+        fileinput.close()
 
-    fileinput.close()
 
     ''' Third Step: Make a fasta from the new txt file created in the Second step --> fasta file with only informative positions'''
     # Ported to python3 
@@ -572,33 +590,53 @@ if MERGE_TOGGLE:
     # subprocess.call('rm '+OUTPUT+'2_all-positions.txt',shell=True)
     subprocess.call('paste <(gzip -dc '+MERGE+') <(cut -f 3- '+OUTPUT+'_all-positions.txt) > '+OUTPUT+'_MERGED_all-positions.txt',shell=True, executable='/bin/bash')
 
-    input_file_filter = open(FILTER,'r')
-    filter_table = []
-    for posi in input_file_filter:
-        filter_table += [posi.strip()]
-    # pos_dic is the same than filter_table except in dictionary as much faster to parse.
+    if FILTER_TOGGLE:
 
-    input_file_filter.close()
+        input_file_filter = open(FILTER,'r')
+        filter_table = []
+        for posi in input_file_filter:
+            filter_table += [posi.strip()]
+        # pos_dic is the same than filter_table except in dictionary as much faster to parse.
 
-    pos_dic = {}
-    for j in filter_table:
-        pos_dic[j] = ''
+        input_file_filter.close()
 
-    for line in fileinput.input(OUTPUT+'_MERGED_all-positions.txt',inplace=True, backup='.bak'): # modify the file created in the first step
-        index = line.index('\t')
-            # Here I remove from the file the positions that are in repetitive regions of the genome or that are rRNAs
-        if line[0] == '0':
-            print(line, end=' ')
-        else:
-            if line[:index] not in pos_dic:
-        #Here I remove uninformative sites : only A, only G, only T, only C, only - or mix of - and A, - and T, - and C, - and G
+        pos_dic = {}
+        for j in filter_table:
+            pos_dic[j] = ''
+
+        for line in fileinput.input(OUTPUT+'_MERGED_all-positions.txt',inplace=True, backup='.bak'): # modify the file created in the first step
+            index = line.index('\t')
+                # Here I remove from the file the positions that are in repetitive regions of the genome or that are rRNAs
+            if line[0] == '0':
+                print(line, end=' ')
+            else:
+                if line[:index] not in pos_dic:
+            #Here I remove uninformative sites : only A, only G, only T, only C, only - or mix of - and A, - and T, - and C, - and G
+                    if not (('-' in line[index+1:] and 'A' not in line[index+1:] and 'C' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:]) or ('A' in line[index+1:] and ('C' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:])) or ('C' in line[index+1:] and ('A' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:])) or ('T' in line[index+1:] and ('C' not in line[index+1:] and 'A' not in line[index+1:] and 'G' not in line[index+1:])) or ('G' in line[index+1:] and ('C' not in line[index+1:] and 'T' not in line[index+1:] and 'A' not in line[index+1:])) or ('D' in line[index+1:]) or ('I' in line[index+1:])):
+                        print(line, end=' ')
+        # rename files: _MERGED_all-positions.txt contains informative sites and _MERGED_all-positions.txt.bak contains all positions
+        subprocess.call('mv '+OUTPUT+'_MERGED_all-positions.txt '+ OUTPUT+'_MERGED_only-informative-sites.txt',shell=True)
+        subprocess.call('mv '+OUTPUT+'_MERGED_all-positions.txt.bak '+ OUTPUT+'_MERGED_all-positions.txt',shell=True)
+
+        fileinput.close()
+    
+    if not FILTER_TOGGLE:
+
+        for line in fileinput.input(OUTPUT+'_MERGED_all-positions.txt',inplace=True, backup='.bak'): # modify the file created in the first step
+            index = line.index('\t')
+                # Here I remove from the file the positions that are in repetitive regions of the genome or that are rRNAs
+            if line[0] == '0':
+                print(line, end=' ')
+            else:
+            #Here I remove uninformative sites : only A, only G, only T, only C, only - or mix of - and A, - and T, - and C, - and G
                 if not (('-' in line[index+1:] and 'A' not in line[index+1:] and 'C' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:]) or ('A' in line[index+1:] and ('C' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:])) or ('C' in line[index+1:] and ('A' not in line[index+1:] and 'T' not in line[index+1:] and 'G' not in line[index+1:])) or ('T' in line[index+1:] and ('C' not in line[index+1:] and 'A' not in line[index+1:] and 'G' not in line[index+1:])) or ('G' in line[index+1:] and ('C' not in line[index+1:] and 'T' not in line[index+1:] and 'A' not in line[index+1:])) or ('D' in line[index+1:]) or ('I' in line[index+1:])):
                     print(line, end=' ')
-    # rename files: _MERGED_all-positions.txt contains informative sites and _MERGED_all-positions.txt.bak contains all positions
-    subprocess.call('mv '+OUTPUT+'_MERGED_all-positions.txt '+ OUTPUT+'_MERGED_only-informative-sites.txt',shell=True)
-    subprocess.call('mv '+OUTPUT+'_MERGED_all-positions.txt.bak '+ OUTPUT+'_MERGED_all-positions.txt',shell=True)
+                    
+        # rename files: _MERGED_all-positions.txt contains informative sites and _MERGED_all-positions.txt.bak contains all positions
+        subprocess.call('mv '+OUTPUT+'_MERGED_all-positions.txt '+ OUTPUT+'_MERGED_only-informative-sites.txt',shell=True)
+        subprocess.call('mv '+OUTPUT+'_MERGED_all-positions.txt.bak '+ OUTPUT+'_MERGED_all-positions.txt',shell=True)
 
-    fileinput.close()
+        fileinput.close()
 
     '''  Make a fasta file with only informative positions'''
     # Ported to python3 
