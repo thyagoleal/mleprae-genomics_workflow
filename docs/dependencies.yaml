@@ -26,3 +26,4 @@ dependencies:
   - varscan=2.4.4=hdfd78af_1
   - vcflib=1.0.3=hecb563c_1
   - vcftools=0.1.16=pl5321hd03093a_7
+  - figtree=1.4.4
