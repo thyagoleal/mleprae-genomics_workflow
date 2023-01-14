@@ -12,7 +12,7 @@ ref:
   previous_genomes_phylogeny: data/refs/036_301_genomes_Pacific_abusir_mexico_AGM_MERGED_all-positions.txt.gz
 
 experiment_opts:
-  platform: "ILLUMINA"
+  platform: "ILLUMINA" 
 
 main_config:
   threads: 4
@@ -22,13 +22,11 @@ main_config:
 merge_prepare_philogeny_script: True # if True, previous samples will be merged
 
 filters:
-  remove_bad: True # or False, next line is ignored if False
+  remove_bad: True # or False, next line is ignored if False (Default True)
   bad-sites: /home/thyago/MEGA/post-doc/fiotec-2022/genomics-mleprae/mleprae-genomics_workflow/data/refs/M.leprae_repeat_regions_rRNA_SK27bad_T18bad.positions
 
-
-
 # add outgroup (e.g. M. lepromatosis)
-add_outgroup: True # or False
+add_outgroup: True # or False (Default True)
 
 # ------------------------------------------------------------------------------
 

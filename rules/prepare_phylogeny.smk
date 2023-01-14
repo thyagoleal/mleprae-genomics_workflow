@@ -10,7 +10,7 @@ if config['merge_prepare_philogeny_script']:
         params:
             ref_fa=config['ref']['ref-file_path'],
             mlepromatosis_vcf=config['ref']['mlepromatosis_vcf'],
-            filter_bad=config['filters']['remove_bad']
+            filter_bad=config['filters']['remove_bad'],
             filter_out=config['filters']['bad-sites'],
             merge_toggle=config['merge_prepare_philogeny_script'], # If False it will ignore previous_genomes
             previous_genomes=config['ref']['previous_genomes_phylogeny'],

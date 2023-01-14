@@ -30,6 +30,14 @@ wildcard_constraints:
 
 # Helper Functions =============================================================
 
+def get_phyloprep_output():
+    if config['merge_prepare_philogeny_script']:
+        return ["results/phyloprep_output/output_MERGED_only-informative-sites_plus_LPM.fasta"]
+    if not config['merge_prepare_philogeny_script']:
+        return ["results/phyloprep_output/output_only-informative-sites_plus_LPM.fasta"]
+    else: 
+        raise ValueError("Could not determine phyloprep output")
+
 def get_platform():
     """Returns the platform name as one string."""
     sys = system_name()
