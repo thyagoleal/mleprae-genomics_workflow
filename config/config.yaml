@@ -33,17 +33,13 @@ add_outgroup: True # or False (Default True)
 params:
   samtools:
     max_mem_thread: "1G" # This is per cpu thread, so if 4 threads are used: 4 x 1 = 4GB
-#    extra:
   trimmomatic:
-#    extra:
     pe:
       trimmer: "ILLUMINACLIP:data/refs/adapters/TruSeq3-PE-2.fa:2:30:10:2:true SLIDINGWINDOW:5:15:MINLEN:40"
     se:
       trimmer: "ILLUMINACLIP:data/refs/adapters/TruSeq3-SE.fa:2:30:10 SLIDINGWINDOW:5:15 MINLEN:40"
   qualimap:
     strand: "non-strand-specific"
-#    extra:
-
   samtools-mpileup: "--min-MQ 8 --count-orphans --no-BAQ --min-BQ 0"
 
   # Here you can tweak how to keep variants by quality and depth

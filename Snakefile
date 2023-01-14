@@ -38,24 +38,25 @@ print("=======================================================================")
 
 # Target rules -----------------------------------------------------------------
 
-phyloprep_output = [
-        "results/phyloprep_output/output_MERGED_gaps-per-genome.txt",
-        "results/phyloprep_output/output_MERGED_all-positions.txt.gz",
-        "results/phyloprep_output/output_MERGED_only-informative-sites.txt",
-        "results/phyloprep_output/output_MERGED_only-informative-sites_plus_LPM.fasta",
-        "results/phyloprep_output/output_MERGED_only-informative-sites_snpEff.txt"
-        ]
+# Can be removed if tree is the final step
+# phyloprep_output = [
+#         "results/phyloprep_output/output_MERGED_gaps-per-genome.txt",
+#         "results/phyloprep_output/output_MERGED_all-positions.txt.gz",
+#         "results/phyloprep_output/output_MERGED_only-informative-sites.txt",
+#         "results/phyloprep_output/output_MERGED_only-informative-sites_plus_LPM.fasta",
+#         "results/phyloprep_output/output_MERGED_only-informative-sites_snpEff.txt"
+#         ]
 
-if not config['merge_prepare_philogeny_script']:
-    phyloprep_output = [i.replace("MERGED", "") for i in phyloprep_output]
+# if not config['merge_prepare_philogeny_script']:
+#     phyloprep_output = [i.replace("MERGED", "") for i in phyloprep_output]
           
 rule all:
     input:
         ["results/qc/multiqc/multiqc.html",
         "results/pipeline_output_recap.tsv",
-        "results/max-parsimony-tree/"] + phyloprep_output
+        "results/max-parsimony-tree/max-parsimony-tree.nwk"] 
+        # + phyloprep_output
         
-
 include: "rules/fastqc.smk"
 include: "rules/trimming.smk"
 include: "rules/merge_overlapping.smk"

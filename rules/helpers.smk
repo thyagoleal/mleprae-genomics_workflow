@@ -30,7 +30,7 @@ wildcard_constraints:
 
 # Helper Functions =============================================================
 
-def get_phyloprep_output():
+def get_phyloprep_input():
     if config['merge_prepare_philogeny_script']:
         return ["results/phyloprep_output/output_MERGED_only-informative-sites_plus_LPM.fasta"]
     if not config['merge_prepare_philogeny_script']:

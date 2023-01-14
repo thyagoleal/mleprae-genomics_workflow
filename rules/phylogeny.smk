@@ -1,8 +1,12 @@
 rule max_parsimony_tree:
     input: 
-        fasta=get_phyloprep_output(),
-        mao_script="scripts/max-parsimony-tree.mao"
+        fasta=get_phyloprep_input(),
     output:
-        directory("results/max-parsimony-tree")
+        "results/max-parsimony-tree/max-parsimony-tree.nwk", 
+    params:
+        mao_script="scripts/max-parsimony-tree.mao",
+        outdir="results/max-parsimony-tree/max-parsimony-tree",
+    log:
+        "logs/mega11/max-parsimony-tree.log"
     shell:
-        "megacc -a {input.mao_script} -d {input.fasta} -o {output}"
+        "megacc -a {params.mao_script} -d {input.fasta} -o {params.outdir} > {log} 2>&1"
