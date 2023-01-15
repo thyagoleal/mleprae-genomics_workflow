@@ -56,7 +56,7 @@ rule all:
         "results/pipeline_output_recap.tsv",
         "results/max-parsimony-tree/max-parsimony-tree.nwk"] 
         # + phyloprep_output
-        
+
 include: "rules/fastqc.smk"
 include: "rules/trimming.smk"
 include: "rules/merge_overlapping.smk"
