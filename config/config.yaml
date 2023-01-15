@@ -2,7 +2,7 @@
 samples: data/samples/prepared-fastqs/samples.tsv
 units: data/samples/prepared-fastqs/units.tsv
 
-# use absolute paths for the following, 
+# use absolute paths for the following:
 
 ref:
   name: AL450380.1
